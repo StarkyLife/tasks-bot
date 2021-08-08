@@ -24,9 +24,11 @@ export function createSaveMessageInteractor(deps: SaveMessageInteractorDeps) {
 
             if (parsedMessage) {
                 await deps.messagesGateway.save(parsedMessage);
+
+                return true;
             }
         }
 
-        return null;
+        return false;
     };
 }

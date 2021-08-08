@@ -31,7 +31,7 @@ it('should reject if not authorized user', async () => {
 it.each([
     undefined,
     'unknown',
-])('should resolve with null if message has unknown format: %s', async (message) => {
+])('should resolve with false if message has unknown format: %s', async (message) => {
     const saveMessage = createSaveMessageInteractor(createDeps({
         parser: jest.fn(() => null),
     }));
@@ -43,7 +43,7 @@ it.each([
 
     await expect(saveMessage(requestModel))
         .resolves
-        .toBeNull();
+        .toBe(false);
 });
 
 it('should save parsed message entity', async () => {
@@ -68,7 +68,7 @@ it('should save parsed message entity', async () => {
 
     await expect(saveMessage(requestModel))
         .resolves
-        .toBeNull();
+        .toBe(true);
 
     expect(messagesGateway.save).toHaveBeenCalledWith(MESSAGE);
 });
