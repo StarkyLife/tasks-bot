@@ -9,10 +9,13 @@ export interface GoogleInstance {
     ): Promise<void>;
 }
 
-export function getConnectedGoogleInstance(): GoogleInstance {
+export function getConnectedGoogleInstance(options: {
+    email?: string;
+    key?: string;
+}): GoogleInstance {
     const authClient = new google.auth.JWT({
-        email: process.env.CLIENT_EMAIL,
-        key: process.env.PRIVATE_KEY,
+        email: options.email,
+        key: options.key,
         scopes: ['https://www.googleapis.com/auth/spreadsheets'],
     });
     const { spreadsheets: spreadsheetsApiClient } = google.sheets({

@@ -8,7 +8,9 @@ import { parseTasks } from './tasks-parser';
 
 dotenv.config();
 
-const { BOT_TOKEN, SHEET_ID } = process.env;
+const {
+    BOT_TOKEN, SHEET_ID, CLIENT_EMAIL, PRIVATE_KEY,
+} = process.env;
 
 if (!BOT_TOKEN) throw new Error('No token for bot!');
 if (!SHEET_ID) throw new Error('No sheet id');
@@ -17,7 +19,10 @@ const saveMessageInteractor = createSaveMessageInteractor({
     gateKeeper: HardcodedGateKeeper,
     messagesGateway: new GoogleSheetMessagesGateway(
         SHEET_ID,
-        getConnectedGoogleInstance(),
+        getConnectedGoogleInstance({
+            email: CLIENT_EMAIL,
+            key: PRIVATE_KEY,
+        }),
     ),
     parser: parseTasks,
 
